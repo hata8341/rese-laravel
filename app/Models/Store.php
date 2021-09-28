@@ -31,4 +31,9 @@ class Store extends Model
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

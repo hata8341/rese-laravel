@@ -25,19 +25,14 @@ class ReserveController extends Controller
      */
     public function store(Request $request)
     {
-        $reserves = Reserve::select('id', 'user_id', 'store_id', 'datetime', 'number')
-            ->where('datetime', $request->datetime)
-            ->get();
-        if ($reserves->isEmpty()) {
-            Reserve::create($request->all());
-            return response()->json([
-                'message' => 'Reserve finished',
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Not Reserve',
-            ], 404);
-        }
+        // $reserves = Reserve::select('id', 'user_id', 'store_id', 'datetime', 'number')
+        //     ->where('datetime', $request->datetime)
+        //     ->get();
+        $item = Reserve::create($request->all());
+        return response()->json([
+            'message' => 'Reserve finished',
+            'data' => $item
+        ], 201);
     }
 
     /**
@@ -69,24 +64,34 @@ class ReserveController extends Controller
      * @param  \App\Models\Reserve  $reserve
      * @return \Illuminate\Http\Response
      */
+    public function checkReserve(Request $request)
+    {
+        $reserve = Reserve::select('id', 'store_id', 'datetime')
+            ->where('store_id', $request->store_id)
+            ->where('datetime', $request->datetime)
+            ->exists();
+
+        if ($reserve) {
+            $result = true;
+        } else {
+            $result = false;
+        }
+        return response()->json([
+            'result' => $result
+        ]);
+    }
+
     public function update(Request $request, Reserve $reserve)
     {
-        $reserves = Reserve::select('id', 'user_id', 'store_id', 'datetime', 'number')
-            ->where('datetime', $request->datetime)
-            ->get();
         $update = [
             'datetime' => $request->datetime,
             'number' => $request->number
         ];
         $item = Reserve::where('id', $reserve->id)->update($update);
-        if ($reserves->isEmpty() && $item) {
+        if ($item) {
             return response()->json([
                 'message' => 'Updated success',
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
         }
     }
 
@@ -110,7 +115,7 @@ class ReserveController extends Controller
         }
     }
 
-    public function reserveDatetime(Request $request)
+    public function reservedDatetime(Request $request)
     {
         $reserves = Reserve::select('id', 'store_id', 'datetime')
             ->where('store_id', $request->store_id)

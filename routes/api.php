@@ -7,6 +7,8 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ReserveController;
 use App\Models\Reserve;
+use App\Http\Controllers\ReviewController;
+use App\Models\Review;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,12 @@ Route::prefix('v1')->group(function () {
 Route::apiResource('/v1/store', StoreController::class)->only(['index', 'show']);
 
 Route::apiResource('/v1/reserve', ReserveController::class)->only(['store', 'show', 'update', 'destroy']);
-Route::get('/v1/reserveDatetime', [ReserveController::class, 'reserveDatetime']);
+Route::get('/v1/checkReserve', [ReserveController::class, 'checkReserve']);
+Route::get('/v1/reservedDatetime', [ReserveController::class, 'reservedDatetime']);
+
+
+Route::apiResource('/v1/review', ReviewController::class)->only(['store', 'show', 'destroy']);
+Route::get('/v1/postedReview', [ReviewController::class, 'postedReview']);
 
 
 Route::post('/v1/like', [LikeController::class, 'store']);

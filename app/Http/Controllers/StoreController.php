@@ -42,11 +42,6 @@ class StoreController extends Controller
     public function show(Request $request, $id)
     {
         $item = Store::where('id', $id)->with(['area:id,area_name', 'genre:id,genre_name'])->get();
-        // $item = Store::where('id', $id)->with(['area.id', 'genre'])->first();
-        // $area = Area::where($item[0]->area_id)->first();
-        // $item[0]->area_name = $area->area_name;
-        // $genre = Genre::find($item[0]->genre_id)->first();
-        // $item[0]->genre_name = $genre->genre_name;
         if ($item) {
             return response()->json([
                 'data' => $item
