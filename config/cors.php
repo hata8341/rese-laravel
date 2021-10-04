@@ -20,7 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     // 'allowed_origins' => ['*'],
-    'allowed_origins' => ['https://rese-reservation.netlify.app', 'https://rese-laravel-api.herokuapp.com', '*'],
+    'allowed_origins' => ['https://rese-reservation.netlify.app/', 'https://rese-laravel-api.herokuapp.com/', '*'],
 
     'allowed_origins_patterns' => [],
 
