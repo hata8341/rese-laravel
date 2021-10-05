@@ -21,7 +21,7 @@ class Cors
         $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "";
 
         Log::debug("http_origin = " . $http_origin);
-        if ($http_origin == "https://rese-laravel-api.herokuapp.com") {
+        if ($http_origin == "http://localhost:8000" && "http://localhost:3000") {
             $response
                 ->header('Access-Control-Allow-Credentials', 'true')
                 ->header("Access-Control-Allow-Origin", $http_origin)
